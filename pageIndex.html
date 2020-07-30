@@ -20,8 +20,22 @@ https://www.youtube.com/watch?v=Fed6lw1iLOc&list=PLswa9HeoJUq-EmjITDTDuH4Dy5OCqc
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+    <style>
+        .gray {
+            background-color: gray;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+    </style>
+
 
 </head>
 
@@ -57,8 +71,45 @@ https://www.youtube.com/watch?v=Fed6lw1iLOc&list=PLswa9HeoJUq-EmjITDTDuH4Dy5OCqc
             <button v-on:click="reverseMessage" class="btn btn-primary">Atualizar</button>
             <button class="btn btn-danger" v-on:click="resetMessage">Limpar</button>
         </div>
+        <br>
+        <br>
     </div>
-
+    <div class="container">
+        <div class="row">
+            <label>Mudando classe CSS dinamicamente</label>
+            <div id="appChangeCssClassDynmanic">
+                <small>Exemplo usando event target value</small>
+                <input type="text" v-on:input="myClass = $event.target.value">
+                <br>
+                <br>
+                <small>Exemplo usando V-Model</small>
+                <input type="text" v-model="otherClass">
+                <p v-bind:class="myClass"> Classe CSS: {{myClass}}</p>
+                <p v-bind:class="otherClass"> Classe CSS: {{otherClass}}</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <label>Aplicando Filtros</label>
+            <div id="applyFilters">
+                <input type="text" v-model="novoNome">
+                <button @click.prevent="adicionarNome">Adicionar +</button>
+                <br>
+                <ul>
+                    <li v-for="nome in nomes">{{nome | capitalizar}}</li>
+                </ul>
+                <br>
+                <br>
+                <small>Lista de Países</small>
+                <ul>
+                    <li v-for="(pais, indice) in paises">{{pais.nome}} ---> {{indice}} -> {{pais.gdp}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
@@ -86,10 +137,15 @@ https://www.youtube.com/watch?v=Fed6lw1iLOc&list=PLswa9HeoJUq-EmjITDTDuH4Dy5OCqc
     var app4 = new Vue({
         el: '#app-4',
         data: {
-            todos: [
-                { text: 'Learn JavaScript' },
-                { text: 'Learn Vue' },
-                { text: 'Build something awesome' }
+            todos: [{
+                    text: 'Learn JavaScript'
+                },
+                {
+                    text: 'Learn Vue'
+                },
+                {
+                    text: 'Build something awesome'
+                }
             ]
         }
     })
@@ -109,6 +165,49 @@ https://www.youtube.com/watch?v=Fed6lw1iLOc&list=PLswa9HeoJUq-EmjITDTDuH4Dy5OCqc
         }
     })
 
+    var appUdemy = new Vue({
+        el: '#appChangeCssClassDynmanic',
+        data: {
+            myClass: '',
+            otherClass: ''
+        }
+    });
+
+    var appUdemy2 = new Vue({
+        el: '#applyFilters',
+        data: {
+            novoNome: '',
+            nomes: [],
+            paises: [{
+                    nome: 'Brazil',
+                    gdp: 1
+                },
+                {
+                    nome: 'Japão',
+                    gdp: 20
+                },
+                {
+                    nome: 'Venezuaela',
+                    gdp: 30
+                },
+                {
+                    nome: 'Estados Unidos',
+                    gdp: 40
+                }
+            ]
+        },
+        methods: {
+            adicionarNome() {
+                this.nomes.push(this.novoNome);
+                this.novoNome = '';
+            }
+        },
+        filters: {
+            capitalizar: function (value) {
+                return value.toUpperCase();
+            }
+        }
+    });
 </script>
 
 </html>

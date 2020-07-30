@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Contatos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+
+</head>
+<style>
+    .jogo {
+        border: 1px solid rgba(0, 107, 189, 0.71);
+        background-color: #F2f2f2;
+        padding: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+        border-radius: 10px;
+        width: 50%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    /*Vue Js Animations Styles*/
+
+    .bounce-enter-active {
+        animation: bounce-in .7s;
+    }
+
+    .bounce-leave-active {
+        animation: bounce-in .7s reverse;
+    }
+
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0);
+        }
+
+        50% {
+            transform: scale(1.5);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+
+<body>
+    <div id="app" class="container text-center">
+        <arcade-page-title></arcade-page-title>
+        <br>
+        <transition name="bounce">
+            <div v-if="bounce">
+                <arcade-jogo></arcade-jogo>
+            </div>
+        </transition>
+        <br>
+        <button class="bt btn-md btn-primary text-center" @click.prevent="bounce = !bounce">
+            Animar
+        </button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <component-pai></component-pai>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('arcade-jogo', {
+            data: function () {
+                return {
+                    jogos: [{
+                        nome: 'Street Fighter'
+                    }, {
+                        nome: 'Mortal Kombat'
+                    }, {
+                        nome: 'Need For Speed'
+                    }, {
+                        nome: 'God Of War'
+                    }, ],
+                };
+            },
+            template: `<div><div class="jogo" v-for="jogo in jogos">
+                            <p>{{jogo.nome}}</p>
+                      </div></div>`,
+        });
+
+        Vue.component('arcade-page-title', {
+            data: function () {
+                return {
+                    title: 'Meus Jogos Favoritos'
+                }
+            },
+            template: `<h3 class="text-center mt-3">{{title}}</h3>`
+        });
+
+        Vue.component('componentFilho', {
+            template: `<div><br><br><br><br><br><p>Component Filho testes</p></div>`
+        });
+
+        Vue.component('componentPai', {
+            template: `<div class="row pull-left">
+                    <h4>Compoennet Pai Teste</h4>
+                    <component-filho></component-filho></div>`
+        });
+        let app = new Vue({
+            el: "#app",
+            data: {
+                bounce: false
+            },
+            component: [
+                'componentPai',
+                'componentFilho',
+            ]
+        });
+    </script>
+</body>
+
+</html>
